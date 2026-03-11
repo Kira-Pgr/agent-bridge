@@ -15,10 +15,8 @@ A Claude Code plugin that lets Claude delegate tasks to external AI CLI agents f
 
 ```
 Claude Code → subagent "codex" → codex exec --full-auto
+Claude Code → subagent "gemini" → gemini -p --approval-mode yolo
 ```
-
-- **Subagent** (`agents/codex.md`) — Claude auto-delegates when appropriate
-- **Skill** (`skills/codex/SKILL.md`) — Manual trigger via `/agent-bridge:codex <task>`
 
 ## Install
 
@@ -43,30 +41,16 @@ curl -fsSL https://raw.githubusercontent.com/Kira-Pgr/agent-bridge/main/install.
   - `npm install -g @openai/codex` for Codex
   - `npm install -g @google/gemini-cli` for Gemini
 
-## Usage
-
-### Automatic (subagent)
-
-Claude will automatically delegate to an external agent when it determines a second opinion would help.
-
-### Manual (skill)
-
-```
-/agent-bridge:codex fix the race condition in src/worker.ts
-```
-
 ## Architecture
 
 ```
 agent-bridge/
 ├── .claude-plugin/
-│   └── plugin.json          # Plugin manifest
+│   ├── plugin.json          # Plugin manifest
+│   └── marketplace.json     # Marketplace definition
 ├── agents/
 │   ├── codex.md             # Codex subagent
 │   └── gemini.md            # Gemini subagent
-├── skills/
-│   ├── codex/SKILL.md       # Manual codex trigger
-│   └── gemini/SKILL.md      # Manual gemini trigger
 ├── scripts/
 │   └── check-deps.sh        # CLI dependency checker
 └── install.sh               # One-liner installer
@@ -75,9 +59,8 @@ agent-bridge/
 ## Adding a new agent
 
 1. Create `agents/<name>.md` with the agent definition
-2. Create `skills/<name>/SKILL.md` for manual invocation
-3. Add any required scripts to `scripts/` if needed
-4. Update the supported agents table in this README
+2. Add the path to `plugin.json` agents array
+3. Update the supported agents table in this README
 
 ## License
 
