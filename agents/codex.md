@@ -5,6 +5,8 @@ description: >
   Use when encountering stubborn bugs Claude cannot resolve, when the user explicitly
   requests Codex/GPT, or when a different model perspective would help.
   Do NOT use for trivial tasks — only for tasks where a second agent adds real value.
+  IMPORTANT: Always spawn this agent in the FOREGROUND (never use run_in_background),
+  because it needs interactive Bash permission approval and asks the user to choose a model.
 model: inherit
 permissionMode: bypassPermissions
 maxTurns: 7
