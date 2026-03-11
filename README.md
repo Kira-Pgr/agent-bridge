@@ -1,32 +1,32 @@
 # agent-bridge
 
-> Claude Code plugin: delegate tasks to external AI agents
+> Connect AI agents together. Let Claude Code delegate tasks to GPT, Gemini, and more.
 
-A Claude Code plugin that lets Claude delegate tasks to external AI CLI agents for alternative perspectives, stubborn bugs, or when a different model may perform better.
+**agent-bridge** is a Claude Code plugin that bridges different AI agents, allowing them to collaborate on your tasks. When Claude gets stuck on a bug, needs a second opinion, or when you want a specific model's perspective — just delegate the task to another agent without leaving your workflow.
+
+## Why?
+
+Every AI model has strengths. GPT excels at certain reasoning tasks. Gemini brings its own perspective. Instead of switching between terminals and copy-pasting context, agent-bridge lets Claude hand off tasks directly to other AI CLIs and bring back the results.
+
+```
+You → Claude Code → agent-bridge → Codex CLI (GPT) → results back to Claude
+                                  → Gemini CLI      → results back to Claude
+```
 
 ## Supported Agents
 
-| Agent | CLI | Description |
-|-------|-----|-------------|
-| **codex** | [OpenAI Codex CLI](https://github.com/openai/codex) | GPT-series models via `codex exec` |
-| **gemini** | [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) | Gemini models via `gemini -p` |
-
-## How it works
-
-```
-Claude Code → subagent "codex" → codex exec --full-auto
-Claude Code → subagent "gemini" → gemini -p --approval-mode yolo
-```
+| Agent | CLI | Models |
+|-------|-----|--------|
+| **codex** | [OpenAI Codex CLI](https://github.com/openai/codex) | gpt-5.4, gpt-5.3-codex, gpt-5.3-codex-spark |
+| **gemini** | [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) | gemini-2.5-pro, gemini-2.5-flash, gemini-3-pro, gemini-3-flash, gemini-3.1-pro-preview |
 
 ## Install
 
 ### From Claude Code (recommended)
 
 ```
-/plugin marketplace add Kira-Pgr/agent-bridge
+/install-plugin Kira-Pgr/agent-bridge
 ```
-
-Then go to the **Discover** tab and install **agent-bridge**.
 
 ### One-liner
 
@@ -38,29 +38,55 @@ curl -fsSL https://raw.githubusercontent.com/Kira-Pgr/agent-bridge/main/install.
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) v1.0.33+
 - At least one agent CLI installed:
-  - `npm install -g @openai/codex` for Codex
-  - `npm install -g @google/gemini-cli` for Gemini
+  - **Codex:** `npm install -g @openai/codex` then `codex login`
+  - **Gemini:** `npm install -g @google/gemini-cli` then run `gemini` once to authenticate
+
+## How It Works
+
+1. You ask Claude to delegate a task to Codex or Gemini
+2. Claude asks you which model and settings to use (via interactive prompt)
+3. A bridge subagent spawns and runs the external CLI
+4. Results come back to Claude, who summarizes what happened
+
+The plugin uses a **SessionStart hook** to inject instructions into Claude's context, so Claude knows to ask for your model preferences before delegating.
+
+## Usage
+
+Ask Claude naturally:
+
+- *"Run this through Codex for a second opinion"*
+- *"Ask Gemini to review this function"*
+- *"Delegate this bug to GPT — I'm stuck"*
+
+Or spawn agents directly:
+
+- `agent-bridge:codex` — delegates to OpenAI Codex CLI
+- `agent-bridge:gemini` — delegates to Google Gemini CLI
 
 ## Architecture
 
 ```
 agent-bridge/
 ├── .claude-plugin/
-│   ├── plugin.json          # Plugin manifest
-│   └── marketplace.json     # Marketplace definition
+│   ├── plugin.json              # Plugin manifest with SessionStart hook
+│   └── marketplace.json         # Marketplace metadata
 ├── agents/
-│   ├── codex.md             # Codex subagent
-│   └── gemini.md            # Gemini subagent
+│   ├── codex.md                 # Codex bridge agent
+│   └── gemini.md                # Gemini bridge agent
 ├── scripts/
-│   └── check-deps.sh        # CLI dependency checker
-└── install.sh               # One-liner installer
+│   ├── session-context.sh       # Injects model selection instructions
+│   └── check-deps.sh            # CLI dependency checker
+└── install.sh                   # One-liner installer
 ```
 
-## Adding a new agent
+## Adding a New Agent
 
-1. Create `agents/<name>.md` with the agent definition
+Want to bridge another AI CLI? It's straightforward:
+
+1. Create `agents/<name>.md` with the agent definition (see existing agents for the pattern)
 2. Add the path to `plugin.json` agents array
-3. Update the supported agents table in this README
+3. Update `scripts/session-context.sh` with the new agent's model options
+4. Submit a PR
 
 ## License
 
