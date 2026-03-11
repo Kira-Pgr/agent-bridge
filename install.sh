@@ -9,31 +9,31 @@
 
 set -euo pipefail
 
-# Source shell profile for full PATH (needed when running via curl | bash)
-for rc in "$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.zprofile" "$HOME/.bash_profile" "$HOME/.profile"; do
-  if [ -f "$rc" ]; then
-    source "$rc" 2>/dev/null || true
-    break
-  fi
+# Ensure full PATH in non-interactive shells (curl | bash)
+# .zshrc often exits early for non-interactive, so try profile files first
+for rc in "$HOME/.zprofile" "$HOME/.bash_profile" "$HOME/.profile" "$HOME/.zshenv"; do
+  [ -f "$rc" ] && source "$rc" 2>/dev/null || true
 done
+# Also add common global bin paths directly
+export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.npm-global/bin:$HOME/.local/bin:$PATH"
 
-GREEN='\033[0;32m'
-RED='\033[0;31m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-NC='\033[0m'
+GREEN=$'\033[0;32m'
+RED=$'\033[0;31m'
+YELLOW=$'\033[0;33m'
+CYAN=$'\033[0;36m'
+BOLD=$'\033[1m'
+NC=$'\033[0m'
 
-ok()   { printf "${GREEN}[ok]${NC}    %s\n" "$1"; }
-fail() { printf "${RED}[fail]${NC}  %s\n" "$1"; }
-info() { printf "${YELLOW}[info]${NC}  %s\n" "$1"; }
-step() { printf "\n${CYAN}${BOLD}%s${NC}\n" "$1"; }
+ok()   { printf "%s[ok]%s    %s\n" "$GREEN" "$NC" "$1"; }
+fail() { printf "%s[fail]%s  %s\n" "$RED" "$NC" "$1"; }
+info() { printf "%s[info]%s  %s\n" "$YELLOW" "$NC" "$1"; }
+step() { printf "\n%s%s%s%s\n" "$CYAN" "$BOLD" "$1" "$NC"; }
 
 REPO="https://github.com/Kira-Pgr/agent-bridge.git"
 INSTALL_DIR="$HOME/.claude/plugins/agent-bridge"
 
 echo
-echo "${BOLD}agent-bridge installer${NC}"
+printf "%sagent-bridge installer%s\n" "$BOLD" "$NC"
 echo "======================"
 echo "Delegate tasks to external AI agents (Codex, Gemini, ...)"
 echo
@@ -59,14 +59,14 @@ step "2. Installing plugin..."
 
 if [ -d "$INSTALL_DIR" ]; then
   info "existing installation found, updating..."
-  git -C "$INSTALL_DIR" pull --ff-only 2>/dev/null || {
+  git -C "$INSTALL_DIR" pull --ff-only || {
     fail "could not update — remove $INSTALL_DIR and retry"
     exit 1
   }
   ok "plugin updated"
 else
   mkdir -p "$(dirname "$INSTALL_DIR")"
-  git clone --depth 1 "$REPO" "$INSTALL_DIR" 2>/dev/null
+  git clone --depth 1 "$REPO" "$INSTALL_DIR"
   ok "plugin cloned to $INSTALL_DIR"
 fi
 
@@ -125,10 +125,10 @@ step "4. Next steps"
 echo
 echo "  Load the plugin in Claude Code:"
 echo
-echo "    ${BOLD}claude --plugin-dir $INSTALL_DIR${NC}"
+printf "    %sclaude --plugin-dir %s%s\n" "$BOLD" "$INSTALL_DIR" "$NC"
 echo
 echo "  Or install permanently from inside Claude Code:"
 echo
-echo "    ${BOLD}/plugin install --path $INSTALL_DIR${NC}"
+printf "    %s/plugin install --path %s%s\n" "$BOLD" "$INSTALL_DIR" "$NC"
 echo
 ok "installation complete"
