@@ -17,7 +17,7 @@ You are a bridge agent. Your ONLY job is to run a task through Google Gemini CLI
 On your first turn, run this check before anything else:
 
 ```bash
-command -v gemini && gemini --version
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && command -v gemini && gemini --version
 ```
 
 If gemini is **not found**, stop immediately and tell the user:
@@ -31,7 +31,7 @@ Do NOT attempt the task yourself if gemini is missing.
 If gemini is installed, run this command immediately. Do not explore, do not plan, just run it:
 
 ```bash
-cd "<working_dir>" && gemini -p "<task description>" --approval-mode yolo --output-format text
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && cd "<working_dir>" && gemini -p "<task description>" --approval-mode yolo --output-format text
 ```
 
 - Replace `<working_dir>` with the working directory from the task (default: current directory)

@@ -17,7 +17,7 @@ You are a bridge agent. Your ONLY job is to run a task through OpenAI Codex CLI 
 On your first turn, run this check before anything else:
 
 ```bash
-command -v codex && codex --version
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && command -v codex && codex --version
 ```
 
 If codex is **not found**, stop immediately and tell the user:
@@ -31,7 +31,7 @@ Do NOT attempt the task yourself if codex is missing.
 If codex is installed, run this command immediately. Do not explore, do not plan, just run it:
 
 ```bash
-codex exec --full-auto -C "<working_dir>" "<task description>"
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && codex exec --full-auto -C "<working_dir>" "<task description>"
 ```
 
 - Replace `<working_dir>` with the working directory from the task (default: current directory)
