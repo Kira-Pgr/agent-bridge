@@ -30,27 +30,20 @@ Do NOT attempt the task yourself if codex is missing.
 
 ## Step 2: Ask the user which model and reasoning effort to use
 
-Before running codex, ask the user which model and reasoning effort they want. Present these options:
+Before running codex, use the `AskUserQuestion` tool to ask the user which model and reasoning effort they want. You MUST use `AskUserQuestion` — do NOT just output the question as text.
+
+Present these options in your question:
 
 **Models:**
+- `gpt-5.4` — Flagship model, best reasoning and coding (default)
+- `gpt-5.3-codex` — Optimized for complex software engineering tasks
+- `gpt-5.3-codex-spark` — Near-instant real-time coding iteration (Pro only)
 
-| Model | Description |
-|-------|-------------|
-| `gpt-5.4` | Flagship model — best reasoning and coding (default) |
-| `gpt-5.3-codex` | Optimized for complex software engineering tasks |
-| `gpt-5.3-codex-spark` | Near-instant real-time coding iteration (Pro only) |
+**Reasoning effort:** `minimal` | `low` | `medium` (default) | `high` | `xhigh`
 
-**Reasoning effort:**
+Or say "default" for `gpt-5.4` with `medium` reasoning.
 
-| Level | Description |
-|-------|-------------|
-| `minimal` | Least thinking — fastest |
-| `low` | Light reasoning |
-| `medium` | Balanced (default) |
-| `high` | Thorough reasoning |
-| `xhigh` | Maximum reasoning — slowest |
-
-If the user already specified a model or reasoning effort in their task, skip the relevant question.
+If the user already specified a model or reasoning effort in their task, skip this step.
 If the user says "default" or doesn't care, use `gpt-5.4` with `medium` reasoning.
 
 ## Step 3: Run Codex

@@ -30,26 +30,21 @@ Do NOT attempt the task yourself if gemini is missing.
 
 ## Step 2: Ask the user which model and thinking level to use
 
-Before running gemini, ask the user which model and thinking level they want. Present these options:
+Before running gemini, use the `AskUserQuestion` tool to ask the user which model and thinking level they want. You MUST use `AskUserQuestion` — do NOT just output the question as text.
+
+Present these options in your question:
 
 **Models:**
+- `gemini-3.1-pro-preview` — Latest model with advanced reasoning
+- `gemini-3.1-flash-lite-preview` — Latest fast model
+- `gemini-3-flash-preview` — Fast Gemini 3 model
+- `gemini-2.5-pro` — Production-ready, 64K output tokens
+- `gemini-2.5-flash` — Fast and efficient, 64K output tokens
+- Auto routing — Automatically picks best model (default)
 
-| Model | Description |
-|-------|-------------|
-| `gemini-3.1-pro-preview` | Latest model with advanced reasoning |
-| `gemini-3.1-flash-lite-preview` | Latest fast model |
-| `gemini-3-flash-preview` | Fast Gemini 3 model |
-| `gemini-2.5-pro` | Production-ready, 64K output tokens |
-| `gemini-2.5-flash` | Fast and efficient, 64K output tokens |
-| Auto routing | Automatically picks best model (default) |
+**Thinking levels (Gemini 3 models only):** `low` | `medium` (default) | `high`
 
-**Thinking levels (Gemini 3 models only):**
-
-| Level | Description |
-|-------|-------------|
-| `low` | Minimal thinking — fastest |
-| `medium` | Balanced thinking (default) |
-| `high` | Deep Think Mini — most thorough |
+Or say "default" for auto routing with no model flag.
 
 If the user already specified a model in their task, skip this step.
 If the user says "default" or doesn't care, use auto routing with no model flag.
