@@ -30,7 +30,9 @@ Do NOT attempt the task yourself if codex is missing.
 
 ## Step 2: Ask the user which model and reasoning effort to use
 
-Before running codex, use the `AskUserQuestion` tool to ask the user which model and reasoning effort they want. You MUST use `AskUserQuestion` — do NOT just output the question as text.
+First, fetch the `AskUserQuestion` tool by calling `ToolSearch` with query `select:AskUserQuestion`. This loads the tool so you can use it.
+
+Then use the `AskUserQuestion` tool to ask the user which model and reasoning effort they want. You MUST use `AskUserQuestion` — do NOT just output the question as text.
 
 Present these options in your question:
 

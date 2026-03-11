@@ -30,7 +30,9 @@ Do NOT attempt the task yourself if gemini is missing.
 
 ## Step 2: Ask the user which model and thinking level to use
 
-Before running gemini, use the `AskUserQuestion` tool to ask the user which model and thinking level they want. You MUST use `AskUserQuestion` — do NOT just output the question as text.
+First, fetch the `AskUserQuestion` tool by calling `ToolSearch` with query `select:AskUserQuestion`. This loads the tool so you can use it.
+
+Then use the `AskUserQuestion` tool to ask the user which model and thinking level they want. You MUST use `AskUserQuestion` — do NOT just output the question as text.
 
 Present these options in your question:
 
