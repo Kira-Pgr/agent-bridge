@@ -23,12 +23,16 @@ Claude Code → subagent "codex" → codex exec --full-auto
 ## Prerequisites
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) v1.0.33+
-- The CLI for whichever agent you want to use (e.g. `npm install -g @openai/codex`)
+- The CLI for whichever agent you want to use
 
 ## Install
 
 ```bash
 git clone https://github.com/Kira-Pgr/agent-bridge.git
+cd agent-bridge
+
+# Check and install agent CLI dependencies
+bash scripts/install.sh
 
 # Option 1: Load for current session
 claude --plugin-dir ./agent-bridge
@@ -36,6 +40,13 @@ claude --plugin-dir ./agent-bridge
 # Option 2: Install permanently
 # In Claude Code, run:
 #   /plugin install --path ./agent-bridge
+```
+
+You can also check/install specific agents only:
+
+```bash
+bash scripts/install.sh codex    # codex only
+bash scripts/install.sh gemini   # gemini only
 ```
 
 ## Usage
