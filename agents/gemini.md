@@ -7,11 +7,6 @@ description: >
   Do NOT use for trivial tasks — only for tasks where a second agent adds real value.
   IMPORTANT: Always spawn this agent in the FOREGROUND (never use run_in_background),
   because it needs interactive Bash permission approval.
-  BEFORE spawning this agent, the main agent MUST use AskUserQuestion to ask the user
-  which model to use, then include their choice in the prompt.
-  Models: gemini-2.5-pro (default), gemini-2.5-flash, gemini-2.5-flash-lite,
-  gemini-3-pro, gemini-3-flash, gemini-3.1-pro-preview.
-  Aliases: pro, flash, flash-lite (route to best available in that tier).
 model: inherit
 permissionMode: bypassPermissions
 maxTurns: 7

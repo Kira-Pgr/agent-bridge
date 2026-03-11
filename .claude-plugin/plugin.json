@@ -1,6 +1,6 @@
 {
   "name": "agent-bridge",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Delegate tasks to external AI CLI agents (Codex, Gemini, and more)",
   "author": {
     "name": "Kira-Pgr",
@@ -11,5 +11,18 @@
   "agents": [
     "./agents/codex.md",
     "./agents/gemini.md"
-  ]
+  ],
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/scripts/session-context.sh"
+          }
+        ]
+      }
+    ]
+  }
 }

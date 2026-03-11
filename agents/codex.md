@@ -7,10 +7,6 @@ description: >
   Do NOT use for trivial tasks — only for tasks where a second agent adds real value.
   IMPORTANT: Always spawn this agent in the FOREGROUND (never use run_in_background),
   because it needs interactive Bash permission approval.
-  BEFORE spawning this agent, the main agent MUST use AskUserQuestion to ask the user
-  which model and reasoning effort to use, then include their choices in the prompt.
-  Models: gpt-5.4 (default), gpt-5.3-codex, gpt-5.3-codex-spark (Pro only).
-  Reasoning effort: low, medium (default), high, xhigh.
 model: inherit
 permissionMode: bypassPermissions
 maxTurns: 7
