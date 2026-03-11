@@ -9,6 +9,14 @@
 
 set -euo pipefail
 
+# Source shell profile for full PATH (needed when running via curl | bash)
+for rc in "$HOME/.zshrc" "$HOME/.bashrc" "$HOME/.zprofile" "$HOME/.bash_profile" "$HOME/.profile"; do
+  if [ -f "$rc" ]; then
+    source "$rc" 2>/dev/null || true
+    break
+  fi
+done
+
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
