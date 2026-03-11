@@ -9,8 +9,7 @@ A Claude Code plugin that lets Claude delegate tasks to external AI CLI agents f
 | Agent | CLI | Description |
 |-------|-----|-------------|
 | **codex** | [OpenAI Codex CLI](https://github.com/openai/codex) | GPT-series models via `codex exec` |
-
-More agents coming soon.
+| **gemini** | [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) | Gemini models via `gemini -p` |
 
 ## How it works
 
