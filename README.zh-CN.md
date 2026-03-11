@@ -25,7 +25,8 @@
 ### 通过 Claude Code 安装（推荐）
 
 ```
-/install-plugin Kira-Pgr/agent-bridge
+/plugin marketplace add Kira-Pgr/agent-bridge
+/plugin install agent-bridge
 ```
 
 ### 一键安装

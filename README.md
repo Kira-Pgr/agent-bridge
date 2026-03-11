@@ -25,7 +25,8 @@ You → Claude Code → agent-bridge → Codex CLI (GPT) → results back to Cla
 ### From Claude Code (recommended)
 
 ```
-/install-plugin Kira-Pgr/agent-bridge
+/plugin marketplace add Kira-Pgr/agent-bridge
+/plugin install agent-bridge
 ```
 
 ### One-liner
