@@ -115,16 +115,51 @@ if [ ${#MISSING[@]} -gt 0 ]; then
   fi
 fi
 
-# ── Step 4: Register with Claude Code ───────────────────────
-step "4. Next steps"
+# ── Step 4: Register plugin permanently ──────────────────────
+step "4. Registering plugin..."
+
+SETTINGS_FILE="$HOME/.claude/settings.json"
+PLUGINS_FILE="$HOME/.claude/plugins/installed_plugins.json"
+PLUGIN_KEY="agent-bridge@agent-bridge"
+NOW=$(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+VERSION=$(grep '"version"' "$INSTALL_DIR/.claude-plugin/plugin.json" | head -1 | sed 's/.*: *"//;s/".*//')
+
+REGISTERED=false
+
+if command -v jq &>/dev/null; then
+  # Register in installed_plugins.json
+  if [ -f "$PLUGINS_FILE" ]; then
+    if ! jq -e ".plugins[\"$PLUGIN_KEY\"]" "$PLUGINS_FILE" &>/dev/null; then
+      jq --arg key "$PLUGIN_KEY" \
+         --arg path "$INSTALL_DIR" \
+         --arg ver "$VERSION" \
+         --arg now "$NOW" \
+         '.plugins[$key] = [{"scope":"user","installPath":$path,"version":$ver,"installedAt":$now,"lastUpdated":$now}]' \
+         "$PLUGINS_FILE" > "${PLUGINS_FILE}.tmp" && mv "${PLUGINS_FILE}.tmp" "$PLUGINS_FILE"
+    fi
+  fi
+
+  # Enable in settings.json
+  if [ -f "$SETTINGS_FILE" ]; then
+    if ! jq -e ".enabledPlugins[\"$PLUGIN_KEY\"]" "$SETTINGS_FILE" &>/dev/null; then
+      jq --arg key "$PLUGIN_KEY" \
+         '.enabledPlugins[$key] = true' \
+         "$SETTINGS_FILE" > "${SETTINGS_FILE}.tmp" && mv "${SETTINGS_FILE}.tmp" "$SETTINGS_FILE"
+    fi
+  fi
+
+  ok "plugin registered permanently"
+  REGISTERED=true
+else
+  info "jq not found — skipping automatic registration"
+fi
+
+if [ "$REGISTERED" = false ]; then
+  echo
+  echo "  Register manually from inside Claude Code:"
+  echo
+  printf "    %s/plugin install --path %s%s\n" "$BOLD" "$INSTALL_DIR" "$NC"
+fi
 
 echo
-echo "  Load the plugin in Claude Code:"
-echo
-printf "    %sclaude --plugin-dir %s%s\n" "$BOLD" "$INSTALL_DIR" "$NC"
-echo
-echo "  Or install permanently from inside Claude Code:"
-echo
-printf "    %s/plugin install --path %s%s\n" "$BOLD" "$INSTALL_DIR" "$NC"
-echo
-ok "installation complete"
+ok "installation complete — restart Claude Code to load the plugin"
