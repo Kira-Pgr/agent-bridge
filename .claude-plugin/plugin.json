@@ -1,10 +1,15 @@
 {
   "name": "agent-bridge",
-  "description": "Claude Code plugin that delegates tasks to external AI agents (Codex, and more in the future).",
   "version": "0.2.0",
+  "description": "Delegate tasks to external AI CLI agents (Codex, Gemini, and more)",
   "author": {
-    "name": "Kira-Pgr"
+    "name": "Kira-Pgr",
+    "url": "https://github.com/Kira-Pgr"
   },
   "repository": "https://github.com/Kira-Pgr/agent-bridge",
-  "license": "MIT"
+  "license": "MIT",
+  "agents": [
+    "./agents/codex.md",
+    "./agents/gemini.md"
+  ]
 }

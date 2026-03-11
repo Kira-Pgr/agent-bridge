@@ -1,0 +1,21 @@
+{
+  "name": "agent-bridge",
+  "owner": {
+    "name": "Kira-Pgr",
+    "url": "https://github.com/Kira-Pgr"
+  },
+  "metadata": {
+    "version": "0.2.0",
+    "description": "Delegate tasks to external AI agents (Codex, Gemini, and more)"
+  },
+  "plugins": [
+    {
+      "name": "agent-bridge",
+      "source": "./",
+      "description": "Bridge to external AI CLI agents — Codex, Gemini, and more",
+      "version": "0.2.0",
+      "category": "tooling",
+      "keywords": ["codex", "gemini", "openai", "google", "multi-agent", "bridge"]
+    }
+  ]
+}

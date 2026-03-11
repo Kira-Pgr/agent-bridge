@@ -22,28 +22,18 @@ Claude Code → subagent "codex" → codex exec --full-auto
 
 ## Install
 
-### Quick install (recommended)
+### From Claude Code (recommended)
+
+```
+/plugin marketplace add Kira-Pgr/agent-bridge
+```
+
+Then go to the **Discover** tab and install **agent-bridge**.
+
+### One-liner
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Kira-Pgr/agent-bridge/main/install.sh | bash
-```
-
-This will clone the plugin, check for agent CLIs, and show you how to load it.
-
-### Manual install
-
-```bash
-git clone https://github.com/Kira-Pgr/agent-bridge.git
-cd agent-bridge
-
-# Check and install agent CLI dependencies
-bash scripts/check-deps.sh
-
-# Load for current session
-claude --plugin-dir ./agent-bridge
-
-# Or install permanently (from inside Claude Code):
-#   /plugin install --path ./agent-bridge
 ```
 
 ### Prerequisites
