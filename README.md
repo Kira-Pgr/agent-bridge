@@ -20,34 +20,38 @@ Claude Code → subagent "codex" → codex exec --full-auto
 - **Subagent** (`agents/codex.md`) — Claude auto-delegates when appropriate
 - **Skill** (`skills/codex/SKILL.md`) — Manual trigger via `/agent-bridge:codex <task>`
 
-## Prerequisites
-
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) v1.0.33+
-- The CLI for whichever agent you want to use
-
 ## Install
+
+### Quick install (recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Kira-Pgr/agent-bridge/main/install.sh | bash
+```
+
+This will clone the plugin, check for agent CLIs, and show you how to load it.
+
+### Manual install
 
 ```bash
 git clone https://github.com/Kira-Pgr/agent-bridge.git
 cd agent-bridge
 
 # Check and install agent CLI dependencies
-bash scripts/install.sh
+bash scripts/check-deps.sh
 
-# Option 1: Load for current session
+# Load for current session
 claude --plugin-dir ./agent-bridge
 
-# Option 2: Install permanently
-# In Claude Code, run:
+# Or install permanently (from inside Claude Code):
 #   /plugin install --path ./agent-bridge
 ```
 
-You can also check/install specific agents only:
+### Prerequisites
 
-```bash
-bash scripts/install.sh codex    # codex only
-bash scripts/install.sh gemini   # gemini only
-```
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) v1.0.33+
+- At least one agent CLI installed:
+  - `npm install -g @openai/codex` for Codex
+  - `npm install -g @google/gemini-cli` for Gemini
 
 ## Usage
 
@@ -68,11 +72,14 @@ agent-bridge/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest
 ├── agents/
-│   └── codex.md             # Codex subagent definition
+│   ├── codex.md             # Codex subagent
+│   └── gemini.md            # Gemini subagent
 ├── skills/
-│   └── codex/
-│       └── SKILL.md         # Manual codex skill trigger
-└── README.md
+│   ├── codex/SKILL.md       # Manual codex trigger
+│   └── gemini/SKILL.md      # Manual gemini trigger
+├── scripts/
+│   └── check-deps.sh        # CLI dependency checker
+└── install.sh               # One-liner installer
 ```
 
 ## Adding a new agent
