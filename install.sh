@@ -7,15 +7,11 @@
 # Or after cloning:
 #   bash install.sh
 
-set -euo pipefail
-
 # Ensure full PATH in non-interactive shells (curl | bash)
-# .zshrc often exits early for non-interactive, so try profile files first
-for rc in "$HOME/.zprofile" "$HOME/.bash_profile" "$HOME/.profile" "$HOME/.zshenv"; do
-  [ -f "$rc" ] && source "$rc" 2>/dev/null || true
-done
-# Also add common global bin paths directly
+# Add common global bin paths directly — sourcing rc files is fragile under set -e
 export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.npm-global/bin:$HOME/.local/bin:$PATH"
+
+set -euo pipefail
 
 GREEN=$'\033[0;32m'
 RED=$'\033[0;31m'
