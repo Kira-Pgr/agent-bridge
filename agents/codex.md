@@ -35,14 +35,15 @@ Do NOT attempt the task yourself if codex is missing.
 Run this command immediately. Do not explore, do not plan, just run it:
 
 ```bash
-export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && codex exec --full-auto -m "<model>" -c model_reasoning_effort="<effort>" -C "<working_dir>" "<task description>"
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH" && codex exec --sandbox workspace-write --skip-git-repo-check -m "<model>" -c model_reasoning_effort="<effort>" -C "<working_dir>" "<task description>"
 ```
 
 - Replace `<model>` with the user's chosen model (default: `gpt-5.4`)
 - Replace `<effort>` with the user's chosen reasoning effort (default: `medium`)
 - Replace `<working_dir>` with the working directory from the task (default: current directory)
 - Replace `<task description>` with the full task you were given
-- Add `--skip-git-repo-check` if the directory is not a git repo
+- `--skip-git-repo-check` is ALWAYS included: codex 0.132+ refuses to run in a non-"trusted" directory ("Not inside a trusted directory…") unless it's passed, so keep it even for git repos.
+- `--sandbox workspace-write` replaces the deprecated `--full-auto`. If the task needs network or to write outside the working dir, use `--dangerously-bypass-approvals-and-sandbox` instead.
 
 That's it. One command. Run it now.
 
